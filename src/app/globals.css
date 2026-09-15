@@ -1,0 +1,238 @@
+/**
+ * @file    globals.css
+ * @spec    design.md § 3 (Design tokens T-01…T-09), § 4 (L-01), § 10 (A-03, A-05)
+ * @note    This file and tailwind.config.ts are the ONLY places raw values may appear (R2).
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /*
+     * T-01 — colours are stored as space-separated RGB CHANNELS so Tailwind can
+     * inject alpha (`bg-ink-800/80`) via rgb(var(--x) / <alpha-value>).
+     * Each also gets a ready-mixed `--x` for direct use in plain CSS below.
+     */
+
+    /* ── T-01 Ink (surfaces) ─────────────────────────────────────────── */
+    --ink-950-c: 4 6 10;
+    --ink-900-c: 8 11 17;
+    --ink-800-c: 13 18 26;
+    --ink-700-c: 19 26 36;
+    --ink-600-c: 27 36 47;
+    --ink-500-c: 39 51 63;
+    --line-c: 30 40 51;
+
+    --ink-950: rgb(var(--ink-950-c));
+    --ink-900: rgb(var(--ink-900-c));
+    --ink-800: rgb(var(--ink-800-c));
+    --ink-700: rgb(var(--ink-700-c));
+    --ink-600: rgb(var(--ink-600-c));
+    --ink-500: rgb(var(--ink-500-c));
+    --line: rgb(var(--line-c));
+
+    /* ── T-01 Copper (primary accent) ────────────────────────────────── */
+    --copper-700-c: 110 58 28;
+    --copper-600-c: 138 74 36;
+    --copper-500-c: 194 112 63;
+    --copper-400-c: 217 140 79;
+    --copper-300-c: 227 160 99;
+    --copper-200-c: 240 196 142;
+
+    --copper-700: rgb(var(--copper-700-c));
+    --copper-600: rgb(var(--copper-600-c));
+    --copper-500: rgb(var(--copper-500-c));
+    --copper-400: rgb(var(--copper-400-c));
+    --copper-300: rgb(var(--copper-300-c));
+    --copper-200: rgb(var(--copper-200-c));
+
+    /* ── T-01 Steel (secondary accent) ───────────────────────────────── */
+    --steel-600-c: 47 86 112;
+    --steel-500-c: 74 124 155;
+    --steel-400-c: 127 176 204;
+
+    --steel-600: rgb(var(--steel-600-c));
+    --steel-500: rgb(var(--steel-500-c));
+    --steel-400: rgb(var(--steel-400-c));
+
+    /* ── T-01 Text ───────────────────────────────────────────────────── */
+    --text-hi-c: 237 240 243;
+    --text-mid-c: 168 178 190;
+    --text-low-c: 107 118 132;
+    --text-faint-c: 70 81 94;
+
+    --text-hi: rgb(var(--text-hi-c));
+    --text-mid: rgb(var(--text-mid-c));
+    --text-low: rgb(var(--text-low-c));
+    --text-faint: rgb(var(--text-faint-c));
+
+    /* ── T-01 Semantic ───────────────────────────────────────────────── */
+    --success-c: 78 154 107;
+    --warning-c: 201 162 39;
+    --danger-c: 192 90 75;
+
+    --success: rgb(var(--success-c));
+    --warning: rgb(var(--warning-c));
+    --danger: rgb(var(--danger-c));
+
+    /* ── T-01 Alpha utilities ────────────────────────────────────────── */
+    /* Zero-alpha copper: Framer Motion cannot animate to the keyword `transparent` (C-02). */
+    --a-copper-00: rgb(194 112 63 / 0);
+    --a-copper-04: rgb(194 112 63 / 0.04);
+    --a-copper-10: rgb(194 112 63 / 0.1);
+    --a-copper-20: rgb(194 112 63 / 0.2);
+    --a-copper-35: rgb(194 112 63 / 0.35);
+    --a-steel-10: rgb(74 124 155 / 0.1);
+    --a-white-06: rgb(255 255 255 / 0.06);
+
+    /* ── T-09 Gradients ──────────────────────────────────────────────── */
+    --grad-accent: linear-gradient(135deg, #d98c4f 0%, #8a4a24 100%);
+    --grad-card: linear-gradient(160deg, #1b242f 0%, #0d121a 100%);
+    --grad-proj-a: linear-gradient(145deg, #8a4a24 0%, #2f5670 100%);
+    --grad-proj-b: linear-gradient(145deg, #6e3a1c 0%, #131a24 100%);
+    --grad-proj-c: linear-gradient(145deg, #2f5670 0%, #131a24 100%);
+    --grad-text: linear-gradient(90deg, #edf0f3 0%, #e3a063 60%, #c2703f 100%);
+    --grad-rule: linear-gradient(90deg, transparent, #c2703f, transparent);
+    --grad-veil: linear-gradient(180deg, transparent 0%, #080b11 85%);
+    /*
+     * C-13 portrait veil: the standard veil starts fading at 0%, which over a full-height
+     * 4:5 portrait darkens the subject from the chest up. This holds clear to 45% — past
+     * the face — then falls to the page ground, so the card still melts into the section.
+     */
+    --grad-veil-portrait: linear-gradient(
+      180deg,
+      rgb(var(--ink-900-c) / 0) 0%,
+      rgb(var(--ink-900-c) / 0) 45%,
+      rgb(var(--ink-900-c) / 0.55) 78%,
+      rgb(var(--ink-900-c) / 0.92) 100%
+    );
+
+    /* ── T-05 Elevation & glow ───────────────────────────────────────── */
+    --glow-copper-sm: 0 0 0 1px rgb(194 112 63 / 0.2), 0 8px 24px rgb(110 58 28 / 0.18);
+    --glow-copper-md: 0 0 0 1px rgb(194 112 63 / 0.25), 0 24px 60px rgb(110 58 28 / 0.22);
+    --glow-copper-lg: 0 0 40px rgb(194 112 63 / 0.35);
+    --shadow-card: 0 18px 40px rgb(4 6 10 / 0.55);
+    --shadow-nav: 0 1px 0 rgb(255 255 255 / 0.04), 0 12px 32px rgb(4 6 10 / 0.45);
+    --inner-hairline: inset 0 1px 0 rgb(255 255 255 / 0.05);
+
+    /* ── T-06 Motion (mirrored in lib/motion.ts — keep in sync) ──────── */
+    --dur-instant: 0.15s;
+    --dur-fast: 0.25s;
+    --dur-base: 0.4s;
+    --dur-slow: 0.8s;
+    --dur-slower: 0.9s;
+    --dur-flip: 0.7s;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+    /* ── T-02 Font families (bound by next/font in layout.tsx) ───────── */
+    --font-display: var(--font-cormorant), Georgia, serif;
+    --font-body: var(--font-dm-sans), system-ui, sans-serif;
+    --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  }
+
+  /* ── L-01 Page shell ───────────────────────────────────────────────── */
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink-900 font-body text-text-mid antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── A-03 Focus ring — never remove without a replacement ──────────── */
+  :focus-visible {
+    outline: 2px solid var(--copper-400);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--a-copper-35);
+    color: var(--text-hi);
+  }
+
+  /* ── C-02 Native cursor is hidden ONLY on fine pointers ────────────── */
+  @media (pointer: fine) {
+    body[data-custom-cursor="on"],
+    body[data-custom-cursor="on"] * {
+      cursor: none;
+    }
+  }
+
+  /* ── A-05 Reduced motion is a first-class path ─────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: var(--dur-fast) !important;
+    }
+  }
+}
+
+@layer components {
+  /* ── C-16 Speed Slider thumb ───────────────────────────────────────── */
+  .slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--copper-500);
+    border: 2px solid var(--text-hi);
+    box-shadow: var(--glow-copper-sm);
+    cursor: pointer;
+    transition: width var(--dur-fast), height var(--dur-fast);
+  }
+
+  .slider:active::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+  }
+
+  .slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--copper-500);
+    border: 2px solid var(--text-hi);
+    box-shadow: var(--glow-copper-sm);
+    cursor: pointer;
+  }
+}
+
+@layer utilities {
+  /* Gradient text — T-09.grad-text */
+  .text-gradient {
+    background: var(--grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* C-17 marquee edge mask */
+  .mask-edges {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  /* C-19 flip-card faces */
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* C-06 left rail */
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+}

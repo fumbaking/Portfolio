@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Curriculum Vitae — Fumba Huriro, Kigali, Rwanda.">
+<title>Fumba Huriro Curriculum Vitae</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+  /*
+   * Single-theme by intent: this is a sheet of paper, not a UI. The beige ground is the
+   * brief, so every colour is painted explicitly and no dark variant is offered — a CV
+   * that inverted on a dark host would stop being the document it is.
+   */
+  :root {
+    --paper:       #EDE6D8;  /* linen sheet            */
+    --surround:    #E4DCC9;  /* desk behind the sheet  */
+    --ink:         #26261F;  /* warm near-black        */
+    --ink-soft:    #5C5A4E;  /* body copy              */
+    --ink-faint:   #8A8779;  /* dates, captions        */
+    --accent:      #4F5B45;  /* deep olive             */
+    --accent-tint: #C9CDBE;  /* olive at rest          */
+
+    /*
+     * One serif, not two. Lora was asked for on the masthead and closing line; Literata
+     * sat too close to it to read as a deliberate pairing, so the whole serif role is
+     * Lora — 700 for header and footer, 600 for role titles.
+     */
+    --serif: "Lora", Georgia, "Times New Roman", serif;
+    --sans:  "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    --mono:  "IBM Plex Mono", ui-monospace, "Courier New", monospace;
+
+    --rail: 8.5rem;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--surround);
+    color: var(--ink-soft);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* No underlines anywhere — the brief. Emphasis comes from weight and colour. */
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  .page {
+    padding-block: clamp(1.5rem, 4vw, 3rem);
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .sheet {
+    max-width: 52rem;
+    margin: 0 auto;
+    background: var(--paper);
+    padding: clamp(2rem, 6vw, 4.25rem) clamp(1.25rem, 5vw, 3.75rem);
+    box-shadow: 0 1px 2px rgb(38 38 31 / 0.06), 0 18px 48px rgb(38 38 31 / 0.10);
+  }
+
+  /* ── Masthead ───────────────────────────────────────────────────────── */
+
+  /* Header — bold Lora */
+  .name {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: clamp(2.1rem, 6vw, 3.1rem);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  .contact {
+    margin: 1rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
+    color: var(--ink-faint);
+  }
+
+  .contact span { display: inline-flex; align-items: center; gap: 1.1rem; }
+  .contact span::after {
+    content: "";
+    width: 3px; height: 3px;
+    background: var(--accent-tint);
+    transform: rotate(45deg);
+  }
+  .contact span:last-child::after { display: none; }
+
+  /* ── Sections ───────────────────────────────────────────────────────── */
+
+  .section { margin-top: clamp(2.25rem, 5vw, 3.25rem); }
+
+  /* Section label: tracked capitals plus a small olive square. No rule, no underline. */
+  .section-label {
+    margin: 0 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 11.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .section-label::before {
+    content: "";
+    flex: none;
+    width: 6px; height: 6px;
+    background: var(--accent);
+  }
+
+  /* ── Entries: a register rail of dates beside the record ────────────── */
+
+  .entry {
+    display: grid;
+    grid-template-columns: var(--rail) 1fr;
+    gap: 0 2.25rem;
+    padding-block: 0;
+  }
+
+  .entry + .entry { margin-top: 2.1rem; }
+
+  .period {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.3rem;
+  }
+
+  .role {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.15rem;
+    line-height: 1.3;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  .org {
+    margin: 0.2rem 0 0;
+    font-size: 14px;
+    color: var(--ink-faint);
+  }
+
+  .prose {
+    margin: 0.85rem 0 0;
+    max-width: 64ch;
+  }
+
+  /* ── Bullets: olive square markers, never discs ─────────────────────── */
+
+  .points {
+    margin: 0.85rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    max-width: 66ch;
+  }
+
+  .points li {
+    position: relative;
+    padding-left: 1.15rem;
+  }
+
+  .points li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 4px; height: 4px;
+    background: var(--accent-tint);
+  }
+
+  /* ── Skills: label / value pairs on the same rail ───────────────────── */
+
+  .skill-row {
+    display: grid;
+    grid-template-columns: var(--rail) 1fr;
+    gap: 0 2.25rem;
+  }
+
+  .skill-row + .skill-row { margin-top: 0.9rem; }
+
+  .skill-key {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.01em;
+    color: var(--ink-faint);
+    padding-top: 0.12rem;
+  }
+
+  .skill-val { margin: 0; }
+
+  /* Footer — bold Lora */
+  .closing {
+    margin: 0;
+    max-width: 64ch;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 1.02rem;
+    color: var(--ink);
+  }
+
+  .colophon {
+    margin-top: clamp(2.25rem, 5vw, 3rem);
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ── Narrow screens: the rail folds above the record ────────────────── */
+
+  @media (max-width: 640px) {
+    .entry, .skill-row { grid-template-columns: 1fr; gap: 0; }
+    .period { padding-top: 0; margin-bottom: 0.4rem; }
+    .skill-key { padding-top: 0; margin-bottom: 0.15rem; }
+    .entry + .entry { margin-top: 1.9rem; }
+  }
+
+  /* ── Print: A4, keep the beige, never split an entry ────────────────── */
+
+  @media print {
+    @page { size: A4; margin: 14mm; }
+    body { background: var(--paper); font-size: 10.5pt; line-height: 1.5; }
+    .page { padding: 0; }
+    .sheet { max-width: none; box-shadow: none; padding: 0; }
+    .section { margin-top: 20pt; break-inside: avoid; }
+    .entry, .skill-row { break-inside: avoid; }
+    .name { font-size: 26pt; }
+    :root { --rail: 6.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <article class="sheet">
+
+    <header>
+      <h1 class="name">Fumba Huriro</h1>
+      <p class="contact">
+        <span>Kigali, Rwanda</span>
+        <span><a href="mailto:fumbaking@gmail.com">fumbaking@gmail.com</a></span>
+        <span><a href="tel:+250789349708">+250789349708</a></span>
+      </p>
+    </header>
+
+    <!-- ── Education ──────────────────────────────────────────────────── -->
+    <section class="section">
+      <h2 class="section-label">Education</h2>
+
+      <div class="entry">
+        <p class="period">Feb 2023 – Present</p>
+        <div>
+          <h3 class="role">Business information Management</h3>
+          <p class="org">Adventist University of Central Africa — Kigali, Rwanda</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Professional experience ────────────────────────────────────── -->
+    <section class="section">
+      <h2 class="section-label">Professional Experience</h2>
+
+      <div class="entry">
+        <p class="period">Jul 2025 – Present</p>
+        <div>
+          <h3 class="role">System Consultant: Marketing Operations Support</h3>
+          <p class="org">KGUC (Kigali Golf Ultimate Course), Kigali</p>
+          <ul class="points">
+            <li>Supported operational process improvements by applying customer-centric analysis to internal administrative and HR workflows.</li>
+            <li>Redesigned and streamlined employee filing systems in response to external audit recommendations, improving document accessibility, compliance, and information management.</li>
+            <li>Mapped information flows across departments to enhance stakeholder engagement and support efficient decision-making.</li>
+            <li>Maintained and updated employee records with a high degree of accuracy, ensuring compliance with Government Labor policies and organizational standards.</li>
+            <li>Assisted in data management and reporting activities, ensuring reliable and actionable information for management review.</li>
+            <li>Collaborated with internal stakeholders to identify process gaps and recommend workflow improvements that increased operational efficiency</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="entry">
+        <p class="period">Aug 2024 – May 2025</p>
+        <div>
+          <h3 class="role">Marketing Executive (Customer Experience &amp; CRM)</h3>
+          <p class="org">CCI Rwanda (Outsourcing for U.S. Clients), Kigali</p>
+          <ul class="points">
+            <li>Managed customer engagement across email, live chat, and CRM platforms for U.S.-based retail clients, ensuring a positive and consistent brand experience.</li>
+            <li>Applied customer-centric marketing strategies to identify consumer needs, address pain points, and deliver personalized solutions that enhanced customer satisfaction and loyalty.</li>
+            <li>Leveraged CRM systems to maintain customer records, monitor interaction trends, and support data-driven decision-making.</li>
+            <li>Analyzed customer feedback and behavioral patterns to generate insights that informed customer experience improvements and retention initiatives.</li>
+            <li>Resolved online checkout and payment-related issues, helping reduce purchase barriers and improve conversion opportunities.</li>
+            <li>Supported customer retention objectives through proactive communication, timely issue resolution, and relationship management.</li>
+            <li>Prepared weekly performance reports highlighting customer engagement metrics, service trends, and key business insights.</li>
+            <li>Collaborated with cross-functional teams to improve customer journey touchpoints and strengthen overall customer experience.</li>
+            <li>Managed customer complaints professionally, protecting brand reputation while fostering long-term customer relationships.</li>
+            <li>Contributed to business growth by promoting customer satisfaction, brand loyalty, and repeat customer engagement.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="entry">
+        <p class="period">Jan 2023 – Aug 2024</p>
+        <div>
+          <h3 class="role">Marketing and procurement Manager</h3>
+          <p class="org">Juicylicius — Kigali, Rwanda</p>
+          <ul class="points">
+            <li>marketed the startup on social media such as WhatsApp, Twitter, Instagram and VubaVuba.</li>
+            <li>Procured affordable food items for making products such as Juice, burgers, hotdogs etc.</li>
+            <li>Set up the framework for delivering our products to customers in the comfort of their homes.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Extracurricular ────────────────────────────────────────────── -->
+    <section class="section">
+      <h2 class="section-label">Extracurricular Activities</h2>
+
+      <div class="entry">
+        <p class="period">Nov 2023 – Jan 2025</p>
+        <div>
+          <h3 class="role">Finance manager and Co-Founder</h3>
+          <p class="org">HEYT (Help Empower Youth Today)</p>
+          <ul class="points">
+            <li>Organized community service projects to help genocide survivors in Rwanda to start business and gain hope.</li>
+            <li>Helped build a chicken business for Genocide survivors in Rugende, Kabuga.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Certifications ─────────────────────────────────────────────── -->
+    <section class="section">
+      <h2 class="section-label">Training Certifications</h2>
+
+      <div class="entry">
+        <p class="period">Sep 2021</p>
+        <div>
+          <h3 class="role">Digital Marketing</h3>
+          <p class="org">Online Certification</p>
+          <p class="prose">Covered website strategy, mobile marketing, email campaigns and digital channels, providing foundational knowledge for executing modern, integrated promotional mixes</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Skills ─────────────────────────────────────────────────────── -->
+    <section class="section">
+      <h2 class="section-label">Skills</h2>
+
+      <div class="skill-row">
+        <p class="skill-key">Language</p>
+        <p class="skill-val">Kinyarwanda (Fluent), English (Fluent), French (intermediate)</p>
+      </div>
+
+      <div class="skill-row">
+        <p class="skill-key">Microsoft office</p>
+        <p class="skill-val">MS Word (Proficient), MS PowerPoint (Proficient), MS Excel (Basics)</p>
+      </div>
+
+      <div class="skill-row">
+        <p class="skill-key">Software &amp; other</p>
+        <p class="skill-val">Software Languages &amp; other skills: website design, computer maintenance, Digital marketing.</p>
+      </div>
+    </section>
+
+    <!-- ── Reference ──────────────────────────────────────────────────── -->
+    <section class="section">
+      <h2 class="section-label">Reference</h2>
+      <p class="closing">References available upon request.</p>
+      <p class="colophon">Kigali, Rwanda &nbsp;·&nbsp; June 2026</p>
+    </section>
+
+  </article>
+</div>
+</body>
+</html>
