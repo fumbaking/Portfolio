@@ -3,7 +3,7 @@
            CLINIC MANAGEMENT SYSTEM - POSTMAN TESTING GUIDE
 ====================================================================
 
-  Base URL : http://localhost:8080
+  Base URL : http://localhost:8081
   App      : Spring Boot 4.1.1
   Database : PostgreSQL (clinicsystem_db)
 
@@ -35,7 +35,7 @@
 
 --- CREATE ---
 Method : POST
-URL    : http://localhost:8080/api/office/save
+URL    : http://localhost:8081/api/office/save
 Body   :
 {
     "name": "Office A",
@@ -49,7 +49,7 @@ If officeNumber already exists: "Office number already exists" (409 CONFLICT)
 
 --- GET ALL ---
 Method : GET
-URL    : http://localhost:8080/api/office/all
+URL    : http://localhost:8081/api/office/all
 
 Expected Response: JSON array of all offices (200 OK)
 
@@ -57,8 +57,8 @@ Expected Response: JSON array of all offices (200 OK)
 
 --- GET BY ID ---
 Method : GET
-URL    : http://localhost:8080/api/office/{id}
-Example: http://localhost:8080/api/office/550e8400-e29b-41d4-a716-446655440000
+URL    : http://localhost:8081/api/office/{id}
+Example: http://localhost:8081/api/office/550e8400-e29b-41d4-a716-446655440000
 
 Expected Response: JSON object of the office (200 OK)
 If not found: "Office not found" (404 NOT FOUND)
@@ -67,7 +67,7 @@ If not found: "Office not found" (404 NOT FOUND)
 
 --- UPDATE ---
 Method : PUT
-URL    : http://localhost:8080/api/office/update/{id}
+URL    : http://localhost:8081/api/office/update/{id}
 Body   :
 {
     "name": "Office B",
@@ -81,7 +81,7 @@ If not found: "Office not found" (404 NOT FOUND)
 
 --- DELETE ---
 Method : DELETE
-URL    : http://localhost:8080/api/office/delete/{id}
+URL    : http://localhost:8081/api/office/delete/{id}
 
 Expected Response: "Office deleted successfully" (200 OK)
 If not found: "Office not found" (404 NOT FOUND)
@@ -93,7 +93,7 @@ If not found: "Office not found" (404 NOT FOUND)
 
 --- CREATE ---
 Method : POST
-URL    : http://localhost:8080/api/specialization/save
+URL    : http://localhost:8081/api/specialization/save
 Body   :
 {
     "name": "Cardiology"
@@ -106,7 +106,7 @@ If name already exists: "Specialization already exists" (409 CONFLICT)
 
 --- GET ALL ---
 Method : GET
-URL    : http://localhost:8080/api/specialization/all
+URL    : http://localhost:8081/api/specialization/all
 
 Expected Response: JSON array of all specializations (200 OK)
 
@@ -114,8 +114,8 @@ Expected Response: JSON array of all specializations (200 OK)
 
 --- GET BY ID ---
 Method : GET
-URL    : http://localhost:8080/api/specialization/{id}
-Example: http://localhost:8080/api/specialization/550e8400-e29b-41d4-a716-446655440000
+URL    : http://localhost:8081/api/specialization/{id}
+Example: http://localhost:8081/api/specialization/550e8400-e29b-41d4-a716-446655440000
 
 Expected Response: JSON object of the specialization (200 OK)
 If not found: "Specialization not found" (404 NOT FOUND)
@@ -124,7 +124,7 @@ If not found: "Specialization not found" (404 NOT FOUND)
 
 --- UPDATE ---
 Method : PUT
-URL    : http://localhost:8080/api/specialization/update/{id}
+URL    : http://localhost:8081/api/specialization/update/{id}
 Body   :
 {
     "name": "Neurology"
@@ -137,7 +137,7 @@ If not found: "Specialization not found" (404 NOT FOUND)
 
 --- DELETE ---
 Method : DELETE
-URL    : http://localhost:8080/api/specialization/delete/{id}
+URL    : http://localhost:8081/api/specialization/delete/{id}
 
 Expected Response: "Specialization deleted successfully" (200 OK)
 If not found: "Specialization not found" (404 NOT FOUND)
@@ -152,7 +152,7 @@ then assign an office using the assign-office endpoint.
 
 --- CREATE ---
 Method : POST
-URL    : http://localhost:8080/api/doctor/save
+URL    : http://localhost:8081/api/doctor/save
 Body   :
 {
     "firstName": "John",
@@ -166,7 +166,7 @@ Expected Response: "Doctor saved successfully" (200 OK)
 
 --- GET ALL ---
 Method : GET
-URL    : http://localhost:8080/api/doctor/all
+URL    : http://localhost:8081/api/doctor/all
 
 Expected Response: JSON array of all doctors (200 OK)
 
@@ -174,8 +174,8 @@ Expected Response: JSON array of all doctors (200 OK)
 
 --- GET BY ID ---
 Method : GET
-URL    : http://localhost:8080/api/doctor/{id}
-Example: http://localhost:8080/api/doctor/550e8400-e29b-41d4-a716-446655440000
+URL    : http://localhost:8081/api/doctor/{id}
+Example: http://localhost:8081/api/doctor/550e8400-e29b-41d4-a716-446655440000
 
 Expected Response: JSON object of the doctor (200 OK)
 If not found: "Doctor not found" (404 NOT FOUND)
@@ -184,7 +184,7 @@ If not found: "Doctor not found" (404 NOT FOUND)
 
 --- UPDATE ---
 Method : PUT
-URL    : http://localhost:8080/api/doctor/update/{id}
+URL    : http://localhost:8081/api/doctor/update/{id}
 Body   :
 {
     "firstName": "Jane",
@@ -199,8 +199,8 @@ If not found: "Doctor not found" (404 NOT FOUND)
 
 --- ASSIGN OFFICE TO DOCTOR ---
 Method : PUT
-URL    : http://localhost:8080/api/doctor/{doctorId}/assign-office/{officeId}
-Example: http://localhost:8080/api/doctor/abc-123.../assign-office/xyz-456...
+URL    : http://localhost:8081/api/doctor/{doctorId}/assign-office/{officeId}
+Example: http://localhost:8081/api/doctor/abc-123.../assign-office/xyz-456...
 
 No Body needed.
 
@@ -212,7 +212,7 @@ If doctor/office not found: relevant not found message (404 NOT FOUND)
 
 --- DELETE ---
 Method : DELETE
-URL    : http://localhost:8080/api/doctor/delete/{id}
+URL    : http://localhost:8081/api/doctor/delete/{id}
 
 Expected Response: "Doctor deleted successfully" (200 OK)
 If not found: "Doctor not found" (404 NOT FOUND)
@@ -224,7 +224,7 @@ If not found: "Doctor not found" (404 NOT FOUND)
 
 --- CREATE ---
 Method : POST
-URL    : http://localhost:8080/api/patient/save
+URL    : http://localhost:8081/api/patient/save
 Body   :
 {
     "firstName": "Alice",
@@ -238,7 +238,7 @@ Expected Response: "Patient saved successfully" (200 OK)
 
 --- GET ALL ---
 Method : GET
-URL    : http://localhost:8080/api/patient/all
+URL    : http://localhost:8081/api/patient/all
 
 Expected Response: JSON array of all patients (200 OK)
 
@@ -246,8 +246,8 @@ Expected Response: JSON array of all patients (200 OK)
 
 --- GET BY ID ---
 Method : GET
-URL    : http://localhost:8080/api/patient/{id}
-Example: http://localhost:8080/api/patient/550e8400-e29b-41d4-a716-446655440000
+URL    : http://localhost:8081/api/patient/{id}
+Example: http://localhost:8081/api/patient/550e8400-e29b-41d4-a716-446655440000
 
 Expected Response: JSON object of the patient (200 OK)
 If not found: "Patient not found" (404 NOT FOUND)
@@ -256,7 +256,7 @@ If not found: "Patient not found" (404 NOT FOUND)
 
 --- UPDATE ---
 Method : PUT
-URL    : http://localhost:8080/api/patient/update/{id}
+URL    : http://localhost:8081/api/patient/update/{id}
 Body   :
 {
     "firstName": "Alice",
@@ -271,7 +271,7 @@ If not found: "Patient not found" (404 NOT FOUND)
 
 --- DELETE ---
 Method : DELETE
-URL    : http://localhost:8080/api/patient/delete/{id}
+URL    : http://localhost:8081/api/patient/delete/{id}
 
 Expected Response: "Patient deleted successfully" (200 OK)
 If not found: "Patient not found" (404 NOT FOUND)
@@ -287,7 +287,7 @@ NOTE: Before creating an appointment you MUST have:
 
 --- CREATE ---
 Method : POST
-URL    : http://localhost:8080/api/appointment/save
+URL    : http://localhost:8081/api/appointment/save
 Body   :
 {
     "appointmentDate": "2026-10-15",
@@ -304,14 +304,15 @@ Body   :
 Status options: SCHEDULED | CONFIRMED | COMPLETED | CANCELLED
 
 Expected Response: "Appointment saved successfully" (200 OK)
-If duplicate (same patient+doctor+date): "Appointment already exists..." (409 CONFLICT)
+If the doctor already has a non-cancelled appointment on that date:
+"Doctor is already booked on that date" (409 CONFLICT)
 If doctor/patient missing or not found: relevant message (400 BAD REQUEST)
 
 ----------------------------------------------------------------------
 
 --- GET ALL ---
 Method : GET
-URL    : http://localhost:8080/api/appointment/all
+URL    : http://localhost:8081/api/appointment/all
 
 Expected Response: JSON array of all appointments (200 OK)
 
@@ -319,8 +320,8 @@ Expected Response: JSON array of all appointments (200 OK)
 
 --- GET BY ID ---
 Method : GET
-URL    : http://localhost:8080/api/appointment/{id}
-Example: http://localhost:8080/api/appointment/550e8400-e29b-41d4-a716-446655440000
+URL    : http://localhost:8081/api/appointment/{id}
+Example: http://localhost:8081/api/appointment/550e8400-e29b-41d4-a716-446655440000
 
 Expected Response: JSON object of the appointment (200 OK)
 If not found: "Appointment not found" (404 NOT FOUND)
@@ -329,8 +330,8 @@ If not found: "Appointment not found" (404 NOT FOUND)
 
 --- GET BY PATIENT ---
 Method : GET
-URL    : http://localhost:8080/api/appointment/patient/{patientId}
-Example: http://localhost:8080/api/appointment/patient/550e8400-e29b-41d4-a716-446655440000
+URL    : http://localhost:8081/api/appointment/patient/{patientId}
+Example: http://localhost:8081/api/appointment/patient/550e8400-e29b-41d4-a716-446655440000
 
 Expected Response: JSON array of appointments for that patient (200 OK)
 If patient not found: "Patient not found" (404 NOT FOUND)
@@ -339,7 +340,7 @@ If patient not found: "Patient not found" (404 NOT FOUND)
 
 --- UPDATE ---
 Method : PUT
-URL    : http://localhost:8080/api/appointment/update/{id}
+URL    : http://localhost:8081/api/appointment/update/{id}
 Body   :
 {
     "appointmentDate": "2026-11-20",
@@ -360,7 +361,7 @@ If not found: "Appointment not found" (404 NOT FOUND)
 
 --- DELETE ---
 Method : DELETE
-URL    : http://localhost:8080/api/appointment/delete/{id}
+URL    : http://localhost:8081/api/appointment/delete/{id}
 
 Expected Response: "Appointment deleted successfully" (200 OK)
 If not found: "Appointment not found" (404 NOT FOUND)
