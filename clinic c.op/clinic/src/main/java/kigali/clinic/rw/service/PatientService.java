@@ -37,10 +37,10 @@ public class PatientService {
         return patientRepo.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
     }
 
-    public Object getPatientsOfDoctor(UUID doctorId) {
+    public Optional<List<Patient>> getPatientsOfDoctor(UUID doctorId) {
         if (doctorRepo.findById(doctorId).isEmpty())
-            return "The doctor with that id does not exist";
-        return patientRepo.findDistinctPatientsByDoctorId(doctorId);
+            return Optional.empty();
+        return Optional.of(patientRepo.findDistinctPatientsByDoctorId(doctorId));
     }
 
     public List<Patient> getFrequentPatients(long min) {
