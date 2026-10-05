@@ -1,0 +1,410 @@
+
+====================================================================
+           CLINIC MANAGEMENT SYSTEM - POSTMAN TESTING GUIDE
+====================================================================
+
+  Base URL : http://localhost:8080
+  App      : Spring Boot 4.1.1
+  Database : PostgreSQL (clinicsystem_db)
+
+  HOW TO START THE APP:
+  Open terminal in project folder and run:
+  .\mvnw.cmd spring-boot:run
+
+  IMPORTANT - FOR ALL POST AND PUT REQUESTS:
+  Go to Headers tab in Postman and add:
+    Key   : Content-Type
+    Value : application/json
+
+  NOTE: After creating a record, copy the "id" (UUID) from the
+  GET /all response and use it in update/delete/getById requests.
+
+====================================================================
+  RECOMMENDED TESTING ORDER:
+  1. Office
+  2. Specialization
+  3. Doctor (assign office after creating)
+  4. Patient
+  5. Appointment (requires existing Doctor and Patient IDs)
+====================================================================
+
+
+====================================================================
+1. OFFICE  (/api/office)
+====================================================================
+
+--- CREATE ---
+Method : POST
+URL    : http://localhost:8080/api/office/save
+Body   :
+{
+    "name": "Office A",
+    "officeNumber": 101
+}
+
+Expected Response: "Office is saved successfully" (200 OK)
+If officeNumber already exists: "Office number already exists" (409 CONFLICT)
+
+----------------------------------------------------------------------
+
+--- GET ALL ---
+Method : GET
+URL    : http://localhost:8080/api/office/all
+
+Expected Response: JSON array of all offices (200 OK)
+
+----------------------------------------------------------------------
+
+--- GET BY ID ---
+Method : GET
+URL    : http://localhost:8080/api/office/{id}
+Example: http://localhost:8080/api/office/550e8400-e29b-41d4-a716-446655440000
+
+Expected Response: JSON object of the office (200 OK)
+If not found: "Office not found" (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- UPDATE ---
+Method : PUT
+URL    : http://localhost:8080/api/office/update/{id}
+Body   :
+{
+    "name": "Office B",
+    "officeNumber": 202
+}
+
+Expected Response: "Office updated successfully" (200 OK)
+If not found: "Office not found" (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- DELETE ---
+Method : DELETE
+URL    : http://localhost:8080/api/office/delete/{id}
+
+Expected Response: "Office deleted successfully" (200 OK)
+If not found: "Office not found" (404 NOT FOUND)
+
+
+====================================================================
+2. SPECIALIZATION  (/api/specialization)
+====================================================================
+
+--- CREATE ---
+Method : POST
+URL    : http://localhost:8080/api/specialization/save
+Body   :
+{
+    "name": "Cardiology"
+}
+
+Expected Response: "Specialization saved successfully" (200 OK)
+If name already exists: "Specialization already exists" (409 CONFLICT)
+
+----------------------------------------------------------------------
+
+--- GET ALL ---
+Method : GET
+URL    : http://localhost:8080/api/specialization/all
+
+Expected Response: JSON array of all specializations (200 OK)
+
+----------------------------------------------------------------------
+
+--- GET BY ID ---
+Method : GET
+URL    : http://localhost:8080/api/specialization/{id}
+Example: http://localhost:8080/api/specialization/550e8400-e29b-41d4-a716-446655440000
+
+Expected Response: JSON object of the specialization (200 OK)
+If not found: "Specialization not found" (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- UPDATE ---
+Method : PUT
+URL    : http://localhost:8080/api/specialization/update/{id}
+Body   :
+{
+    "name": "Neurology"
+}
+
+Expected Response: "Specialization updated successfully" (200 OK)
+If not found: "Specialization not found" (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- DELETE ---
+Method : DELETE
+URL    : http://localhost:8080/api/specialization/delete/{id}
+
+Expected Response: "Specialization deleted successfully" (200 OK)
+If not found: "Specialization not found" (404 NOT FOUND)
+
+
+====================================================================
+3. DOCTOR  (/api/doctor)
+====================================================================
+
+NOTE: You can create a doctor without an office first,
+then assign an office using the assign-office endpoint.
+
+--- CREATE ---
+Method : POST
+URL    : http://localhost:8080/api/doctor/save
+Body   :
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "dateOfBirth": "1985-06-15"
+}
+
+Expected Response: "Doctor saved successfully" (200 OK)
+
+----------------------------------------------------------------------
+
+--- GET ALL ---
+Method : GET
+URL    : http://localhost:8080/api/doctor/all
+
+Expected Response: JSON array of all doctors (200 OK)
+
+----------------------------------------------------------------------
+
+--- GET BY ID ---
+Method : GET
+URL    : http://localhost:8080/api/doctor/{id}
+Example: http://localhost:8080/api/doctor/550e8400-e29b-41d4-a716-446655440000
+
+Expected Response: JSON object of the doctor (200 OK)
+If not found: "Doctor not found" (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- UPDATE ---
+Method : PUT
+URL    : http://localhost:8080/api/doctor/update/{id}
+Body   :
+{
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "dateOfBirth": "1990-03-20"
+}
+
+Expected Response: "Doctor updated successfully" (200 OK)
+If not found: "Doctor not found" (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- ASSIGN OFFICE TO DOCTOR ---
+Method : PUT
+URL    : http://localhost:8080/api/doctor/{doctorId}/assign-office/{officeId}
+Example: http://localhost:8080/api/doctor/abc-123.../assign-office/xyz-456...
+
+No Body needed.
+
+Expected Response: "Office assigned successfully" (200 OK)
+If office already taken: "Office is already assigned to another doctor" (409 CONFLICT)
+If doctor/office not found: relevant not found message (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- DELETE ---
+Method : DELETE
+URL    : http://localhost:8080/api/doctor/delete/{id}
+
+Expected Response: "Doctor deleted successfully" (200 OK)
+If not found: "Doctor not found" (404 NOT FOUND)
+
+
+====================================================================
+4. PATIENT  (/api/patient)
+====================================================================
+
+--- CREATE ---
+Method : POST
+URL    : http://localhost:8080/api/patient/save
+Body   :
+{
+    "firstName": "Alice",
+    "lastName": "Johnson",
+    "dateOfBirth": "2000-01-10"
+}
+
+Expected Response: "Patient saved successfully" (200 OK)
+
+----------------------------------------------------------------------
+
+--- GET ALL ---
+Method : GET
+URL    : http://localhost:8080/api/patient/all
+
+Expected Response: JSON array of all patients (200 OK)
+
+----------------------------------------------------------------------
+
+--- GET BY ID ---
+Method : GET
+URL    : http://localhost:8080/api/patient/{id}
+Example: http://localhost:8080/api/patient/550e8400-e29b-41d4-a716-446655440000
+
+Expected Response: JSON object of the patient (200 OK)
+If not found: "Patient not found" (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- UPDATE ---
+Method : PUT
+URL    : http://localhost:8080/api/patient/update/{id}
+Body   :
+{
+    "firstName": "Alice",
+    "lastName": "Williams",
+    "dateOfBirth": "2000-01-10"
+}
+
+Expected Response: "Patient updated successfully" (200 OK)
+If not found: "Patient not found" (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- DELETE ---
+Method : DELETE
+URL    : http://localhost:8080/api/patient/delete/{id}
+
+Expected Response: "Patient deleted successfully" (200 OK)
+If not found: "Patient not found" (404 NOT FOUND)
+
+
+====================================================================
+5. APPOINTMENT  (/api/appointment)
+====================================================================
+
+NOTE: Before creating an appointment you MUST have:
+  - An existing Doctor  (copy its id from GET /api/doctor/all)
+  - An existing Patient (copy its id from GET /api/patient/all)
+
+--- CREATE ---
+Method : POST
+URL    : http://localhost:8080/api/appointment/save
+Body   :
+{
+    "appointmentDate": "2026-10-15",
+    "reason": "General checkup",
+    "status": "SCHEDULED",
+    "doctor": {
+        "id": "paste-doctor-uuid-here"
+    },
+    "patient": {
+        "id": "paste-patient-uuid-here"
+    }
+}
+
+Status options: SCHEDULED | CONFIRMED | COMPLETED | CANCELLED
+
+Expected Response: "Appointment saved successfully" (200 OK)
+If duplicate (same patient+doctor+date): "Appointment already exists..." (409 CONFLICT)
+If doctor/patient missing or not found: relevant message (400 BAD REQUEST)
+
+----------------------------------------------------------------------
+
+--- GET ALL ---
+Method : GET
+URL    : http://localhost:8080/api/appointment/all
+
+Expected Response: JSON array of all appointments (200 OK)
+
+----------------------------------------------------------------------
+
+--- GET BY ID ---
+Method : GET
+URL    : http://localhost:8080/api/appointment/{id}
+Example: http://localhost:8080/api/appointment/550e8400-e29b-41d4-a716-446655440000
+
+Expected Response: JSON object of the appointment (200 OK)
+If not found: "Appointment not found" (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- GET BY PATIENT ---
+Method : GET
+URL    : http://localhost:8080/api/appointment/patient/{patientId}
+Example: http://localhost:8080/api/appointment/patient/550e8400-e29b-41d4-a716-446655440000
+
+Expected Response: JSON array of appointments for that patient (200 OK)
+If patient not found: "Patient not found" (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- UPDATE ---
+Method : PUT
+URL    : http://localhost:8080/api/appointment/update/{id}
+Body   :
+{
+    "appointmentDate": "2026-11-20",
+    "reason": "Follow-up visit",
+    "status": "CONFIRMED",
+    "doctor": {
+        "id": "paste-doctor-uuid-here"
+    },
+    "patient": {
+        "id": "paste-patient-uuid-here"
+    }
+}
+
+Expected Response: "Appointment updated successfully" (200 OK)
+If not found: "Appointment not found" (404 NOT FOUND)
+
+----------------------------------------------------------------------
+
+--- DELETE ---
+Method : DELETE
+URL    : http://localhost:8080/api/appointment/delete/{id}
+
+Expected Response: "Appointment deleted successfully" (200 OK)
+If not found: "Appointment not found" (404 NOT FOUND)
+
+
+====================================================================
+  QUICK REFERENCE - ALL ENDPOINTS
+====================================================================
+
+  OFFICE
+  POST   /api/office/save
+  GET    /api/office/all
+  GET    /api/office/{id}
+  PUT    /api/office/update/{id}
+  DELETE /api/office/delete/{id}
+
+  SPECIALIZATION
+  POST   /api/specialization/save
+  GET    /api/specialization/all
+  GET    /api/specialization/{id}
+  PUT    /api/specialization/update/{id}
+  DELETE /api/specialization/delete/{id}
+
+  DOCTOR
+  POST   /api/doctor/save
+  GET    /api/doctor/all
+  GET    /api/doctor/{id}
+  PUT    /api/doctor/update/{id}
+  PUT    /api/doctor/{doctorId}/assign-office/{officeId}
+  DELETE /api/doctor/delete/{id}
+
+  PATIENT
+  POST   /api/patient/save
+  GET    /api/patient/all
+  GET    /api/patient/{id}
+  PUT    /api/patient/update/{id}
+  DELETE /api/patient/delete/{id}
+
+  APPOINTMENT
+  POST   /api/appointment/save
+  GET    /api/appointment/all
+  GET    /api/appointment/{id}
+  GET    /api/appointment/patient/{patientId}
+  PUT    /api/appointment/update/{id}
+  DELETE /api/appointment/delete/{id}
+
+====================================================================
