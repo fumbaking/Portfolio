@@ -60,6 +60,18 @@ public class AppointmentService {
         return appointmentRepo.findByAppointmentDateBetweenOrderByAppointmentDateAsc(start, end);
     }
 
+    public List<Object[]> getAppointmentStatsByStatus() {
+        return appointmentRepo.countAppointmentsByStatus();
+    }
+
+    public int cancelAppointmentsByDoctorAndDate(UUID doctorId, LocalDate date) {
+        return appointmentRepo.cancelDoctorAppointmentsForDate(
+                doctorId,
+                date,
+                AppointmentStatus.CANCELLED,
+                AppointmentStatus.COMPLETED);
+    }
+
     public List<Appointment> getAllAppointments() {
         return appointmentRepo.findAll();
     }

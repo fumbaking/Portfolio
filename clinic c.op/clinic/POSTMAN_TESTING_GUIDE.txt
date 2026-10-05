@@ -408,3 +408,27 @@ If not found: "Appointment not found" (404 NOT FOUND)
   DELETE /api/appointment/delete/{id}
 
 ====================================================================
+
+  DERIVED QUERY AND JPQL FEATURES
+
+  GET    /api/patients/by-last-name?lastName=uwase
+  GET    /api/appointments/by-status?status=SCHEDULED
+  GET    /api/appointments/between?start=2026-10-01&end=2026-10-31
+  POST   /api/appointments/save
+         A doctor with a non-cancelled appointment on the same date returns
+         "Doctor is already booked on that date" (409 CONFLICT).
+
+  GET    /api/doctors/by-specialization?name=cardiology
+  GET    /api/doctors/without-office
+  GET    /api/specializations/unused
+  GET    /api/patients/of-doctor/{doctorId}
+
+  GET    /api/appointments/stats/by-status
+  GET    /api/patients/frequent?min=3
+  GET    /api/offices/busiest
+  PATCH  /api/appointments/cancel-day?doctorId={doctorId}&date=2026-10-20
+
+  Dates use ISO format (yyyy-MM-dd); appointment status is
+  SCHEDULED, CONFIRMED, COMPLETED, or CANCELLED.
+
+====================================================================

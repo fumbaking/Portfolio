@@ -1,6 +1,7 @@
 package kigali.clinic.rw.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,6 +56,19 @@ public class AppointmentController {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
         return new ResponseEntity<>(appointmentService.getAppointmentsBetween(startDate, endDate), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/stats/by-status")
+    public ResponseEntity<List<Object[]>> getAppointmentStatsByStatus() {
+        return new ResponseEntity<>(appointmentService.getAppointmentStatsByStatus(), HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "/cancel-day")
+    public ResponseEntity<String> cancelAppointmentsByDoctorAndDate(
+            @RequestParam UUID doctorId,
+            @RequestParam String date) {
+        int cancelledCount = appointmentService.cancelAppointmentsByDoctorAndDate(doctorId, LocalDate.parse(date));
+        return new ResponseEntity<>(cancelledCount + " appointments cancelled", HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")

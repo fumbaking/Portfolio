@@ -30,8 +30,8 @@ public class OfficeService {
         return offRepo.findAll();
     }
 
-    public List<Object[]> getBusiestOffice() {
-        return offRepo.findBusiestOffice(PageRequest.of(0, 1));
+    public Optional<Object[]> getBusiestOffice() {
+        return offRepo.findBusiestOffice(PageRequest.of(0, 1)).stream().findFirst();
     }
 
     public Optional<Office> getOfficeById(UUID id) {
