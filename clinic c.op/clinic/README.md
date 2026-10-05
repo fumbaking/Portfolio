@@ -15,13 +15,13 @@ a JPQL bulk update.
 1. Configure the PostgreSQL connection in
    `src/main/resources/application.properties`. Do not commit database
    usernames, passwords, or other secrets.
-2. Review `spring.jpa.hibernate.ddl-auto` before starting the application.
-   The current local setting is `create`, which recreates the schema at startup
-   and can erase existing clinic data. Back up the database and use a safe
-   schema setting if the data must be retained.
-3. From this directory, run:
+2. The local `spring.jpa.hibernate.ddl-auto` setting may be `create`, which
+   recreates the schema at startup and can erase clinic data. For local
+   development, override it to `update` before starting the application.
+3. From this directory in PowerShell, run:
 
    ```powershell
+   $env:SPRING_JPA_HIBERNATE_DDL_AUTO = 'update'
    .\mvnw.cmd spring-boot:run
    ```
 
@@ -51,13 +51,16 @@ the quiz endpoints.
 ## Seed data and API testing
 
 Use the save endpoints and then their corresponding `/all` endpoints to
-retrieve generated UUIDs. Create specializations, offices, doctors, patients,
+retrieve generated UUIDs. Create offices, doctors, specializations, patients,
 and then appointments in that order. Appointment statuses are `SCHEDULED`,
 `CONFIRMED`, `COMPLETED`, and `CANCELLED`.
 
 See [POSTMAN_TESTING_GUIDE.txt](POSTMAN_TESTING_GUIDE.txt) for CRUD request
-examples and the quiz endpoint checklist. Seed data is not loaded
-automatically.
+examples and the quiz endpoint checklist. Import
+[Clinic-Quiz.postman_collection.json](Clinic-Quiz.postman_collection.json) into
+Postman to run assertions for the quiz endpoints. Its collection variables
+default to the local seed record IDs and can be edited for another database.
+Seed data is not loaded automatically.
 
 ## Build
 

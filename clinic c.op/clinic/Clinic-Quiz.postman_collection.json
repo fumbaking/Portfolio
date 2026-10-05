@@ -1,0 +1,377 @@
+{
+  "info": {
+    "_postman_id": "f1d3c50d-59e4-4d6d-b964-3b37f0b5e930",
+    "name": "Kigali Clinic JPA and JPQL Quiz",
+    "description": "Behavior checks for requirements A1-C4. Import into Postman after seeding the local clinic database.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "doctor1Id",
+      "value": "7ba84808-78d2-4905-aec5-04f290a8b694"
+    },
+    {
+      "key": "doctor2Id",
+      "value": "4624ac9a-a4c0-4503-a23b-51045e0c16b8"
+    },
+    {
+      "key": "patient5Id",
+      "value": "37ea2886-75b8-41f0-aa5a-73052f4aedcd"
+    },
+    {
+      "key": "cancelCheckAppointmentId",
+      "value": "4d5e1705-628c-492c-90dc-c0df85733c02"
+    }
+  ],
+  "item": [
+    {
+      "name": "A1 - Patients by last name, case-insensitive and ordered",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/patients/by-last-name?lastName=UWASE"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns the two matching patients in first-name order', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().map(p => p.firstName)).to.eql(['Ava', 'Benoit']);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "A2 - Appointments by status, ordered by date",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/appointments/by-status?status=SCHEDULED"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns scheduled appointments in ascending date order', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const dates = pm.response.json().map(a => a.appointmentDate);",
+              "  pm.expect([2, 3]).to.include(dates.length);",
+              "  pm.expect(dates).to.eql([...dates].sort());",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "A3 - Appointments in inclusive October range",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/appointments/between?start=2026-10-01&end=2026-10-31"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('includes the first and last day of October', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const appointments = pm.response.json();",
+              "  pm.expect(appointments).to.have.lengthOf(5);",
+              "  pm.expect(appointments[0].appointmentDate).to.eql('2026-10-01');",
+              "  pm.expect(appointments[appointments.length - 1].appointmentDate).to.eql('2026-10-31');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "A4 - Reject a doctor's double booking",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"appointmentDate\": \"2026-10-10\",\n  \"reason\": \"Postman conflict check\",\n  \"status\": \"SCHEDULED\",\n  \"doctor\": { \"id\": \"{{doctor1Id}}\" },\n  \"patient\": { \"id\": \"{{patient5Id}}\" }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/appointments/save"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns the required 409 booking conflict', function () {",
+              "  pm.response.to.have.status(409);",
+              "  pm.expect(pm.response.text()).to.eql('Doctor is already booked on that date');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "B1 - Doctors by specialization, case-insensitive",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/doctors/by-specialization?name=CaRdIoLoGy"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('joins doctors to matching specialization regardless of case', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().map(d => d.firstName).sort()).to.eql(['Aline', 'Jean']);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "B2 - Doctors without an office",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/doctors/without-office"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns the doctor without an assigned office', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().map(d => d.firstName)).to.eql(['Mutesi']);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "B3 - Specializations nobody offers",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/specializations/unused"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns Neurology as the unused specialization', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().map(s => s.name)).to.eql(['Neurology']);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "B4 - Distinct patients of a doctor",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/patients/of-doctor/{{doctor1Id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns each doctor patient exactly once', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const ids = pm.response.json().map(p => p.id);",
+              "  pm.expect(ids).to.have.lengthOf(4);",
+              "  pm.expect(new Set(ids).size).to.eql(4);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "B4 - Missing doctor returns 404",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/patients/of-doctor/00000000-0000-0000-0000-000000000001"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns the required missing-doctor message', function () {",
+              "  pm.response.to.have.status(404);",
+              "  pm.expect(pm.response.text()).to.eql('The doctor with that id does not exist');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "C1 - Appointment counts by status",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/appointments/stats/by-status"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns one status/count pair for each non-empty status', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const counts = Object.fromEntries(pm.response.json());",
+              "  pm.expect(Object.keys(counts).sort()).to.eql(['CANCELLED', 'COMPLETED', 'CONFIRMED', 'SCHEDULED']);",
+              "  pm.expect(counts.SCHEDULED + counts.CONFIRMED + counts.COMPLETED + counts.CANCELLED).to.eql(10);",
+              "  pm.expect([2, 3]).to.include(counts.SCHEDULED);",
+              "  pm.expect([2, 3]).to.include(counts.CANCELLED);",
+              "  pm.expect(counts.CONFIRMED).to.eql(2);",
+              "  pm.expect(counts.COMPLETED).to.eql(3);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "C2 - Frequent patients",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/patients/frequent?min=3"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns the patient with at least three appointments', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().map(p => p.firstName)).to.eql(['Ava']);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "C3 - Busiest office",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/offices/busiest"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('returns the top office name, number and appointment count', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json()).to.eql(['Office One', 101, 4]);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "C4 - Completed appointment is not cancelled",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/appointments/cancel-day?doctorId={{doctor2Id}}&date=2026-10-17"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('does not modify a completed appointment', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.text()).to.eql('0 appointments cancelled');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "C4 - Bulk cancel a doctor's appointments for a date",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/appointments/cancel-day?doctorId={{doctor2Id}}&date=2026-11-20"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('updates the matching appointment and reports its count', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.text()).to.eql('1 appointments cancelled');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "C4 - Verify bulk cancellation persisted",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/appointments/all"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('the appointment now has CANCELLED status', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const appointment = pm.response.json().find(a => a.id === pm.collectionVariables.get('cancelCheckAppointmentId'));",
+              "  pm.expect(appointment).to.exist;",
+              "  pm.expect(appointment.status).to.eql('CANCELLED');",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -8,8 +8,13 @@
   Database : PostgreSQL (clinicsystem_db)
 
   HOW TO START THE APP:
-  Open terminal in project folder and run:
+  In PowerShell, open the project folder and run:
+  $env:SPRING_JPA_HIBERNATE_DDL_AUTO = 'update'
   .\mvnw.cmd spring-boot:run
+
+  The local application.properties may set ddl-auto=create, which recreates
+  the schema and can erase database records. The environment override above
+  preserves existing data while updating the schema.
 
   IMPORTANT - FOR ALL POST AND PUT REQUESTS:
   Go to Headers tab in Postman and add:
